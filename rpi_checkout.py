@@ -34,21 +34,33 @@ def main():
     print("LIBGIT2: {}".format(pygit2.LIBGIT2_VER))
 
     # Cloning order matters
-    print("Cloning poky repo over http...")
-    pygit2.clone_repository("https://git.yoctoproject.org/git/poky", poky_dir,
-        callbacks=MyRemoteCallbacks(), checkout_branch="thud")
+    try:
+        print("Cloning poky repo over http...")
+        pygit2.clone_repository("https://git.yoctoproject.org/git/poky", poky_dir,
+            callbacks=MyRemoteCallbacks(), checkout_branch="thud")
+    except ValueError as ve:
+        print("Repo already exists!")
 
-    print("Cloning meta-raspberrypi repo over http...")
-    pygit2.clone_repository("https://github.com/agherzan/meta-raspberrypi", meta_raspberrypi_dir,
-        callbacks=MyRemoteCallbacks(), checkout_branch="thud")
+    try:
+        print("Cloning meta-raspberrypi repo over http...")
+        pygit2.clone_repository("https://github.com/agherzan/meta-raspberrypi", meta_raspberrypi_dir,
+            callbacks=MyRemoteCallbacks(), checkout_branch="thud")
+    except ValueError as ve:
+        print("Repo already exists!")
 
-    print("Cloning build repo over http...")
-    pygit2.clone_repository("https://github.com/ChristopherJD/raspberrypi_conf", build_dir,
-        callbacks=MyRemoteCallbacks())
+    try:
+        print("Cloning build repo over http...")
+        pygit2.clone_repository("https://github.com/ChristopherJD/raspberrypi_conf", build_dir,
+            callbacks=MyRemoteCallbacks())
+    except ValueError as ve:
+        print("Repo already exists!")
 
-    print("Cloning meta-user repo over http...")
-    pygit2.clone_repository("https://github.com/ChristopherJD/raspberrypi_meta_user", build_user,
-        callbacks=MyRemoteCallbacks())
+    try:
+        print("Cloning meta-user repo over http...")
+        pygit2.clone_repository("https://github.com/ChristopherJD/raspberrypi_meta_user", meta_user_dir,
+            callbacks=MyRemoteCallbacks())
+    except ValueError as ve:
+        print("Repo already exists!")
 
 if __name__ == "__main__":
     main()
