@@ -28,6 +28,7 @@ def main():
     poky_dir = path.join(project_dir, 'poky')
     meta_raspberrypi_dir = path.join(poky_dir, 'meta-raspberrypi')
     meta_user_dir = path.join(poky_dir, 'meta-user')
+    meta_oe_dir = path.join(poky_dir, 'meta-openembedded')
     build_dir = path.join(poky_dir, 'build')
 
     # Print verison of libgit2
@@ -59,6 +60,13 @@ def main():
         print("Cloning meta-user repo over http...")
         pygit2.clone_repository("https://github.com/ChristopherJD/raspberrypi_meta_user", meta_user_dir,
             callbacks=MyRemoteCallbacks())
+    except ValueError as ve:
+        print("Repo already exists!")
+
+    try:
+        print("Cloning meta-openembedded repo over http...")
+        pygit2.clone_repository("https://github.com/openembedded/meta-openembedded.git", meta_oe_dir,
+            callbacks=MyRemoteCallbacks(), checkout_branch="thud")
     except ValueError as ve:
         print("Repo already exists!")
 
