@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 import pygit2
 import argparse
 from os import path
@@ -75,5 +74,3 @@ def main():
     except ValueError as ve:
         print("Repo already exists!")
 
-if __name__ == "__main__":
-    main()
