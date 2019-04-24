@@ -2,17 +2,22 @@
 import pygit2
 import argparse
 from os import path
+from os import environ
+from os.path import join
+
+HOME = environ["HOME"]
+GIT_USERNAME = "git"
+SSH_PUBLIC_KEY = ".ssh/id_rsa.pub"
+SSH_PRIVATE_KEY = ".ssh/id_rsa"
 
 
 class MyRemoteCallbacks(pygit2.RemoteCallbacks):
 
-    # TODO these credentials are bogus, don't even know we need this, but leave
-    # as an example for now
     def credentials(self, url, username_from_url, allowed_types):
         if allowed_types & pygit2.credentials.GIT_CREDTYPE_USERNAME:
-            return pygit2.Username("git")
+            return pygit2.Username(GIT_USERNAME)
         elif allowed_types & pygit2.credentials.GIT_CREDTYPE_SSH_KEY:
-            return pygit2.Keypair("git", "id_rsa.pub", "id_rsa", "")
+            return pygit2.Keypair(GIT_USERNAME, join(HOME, SSH_PUBLIC_KEY), join(HOME, SSH_PRIVATE_KEY), "")
         else:
             return None
 
@@ -32,7 +37,7 @@ def main():
     build_dir = path.join(poky_dir, 'build')
 
     # Print verison of libgit2
-    print("LIBGIT2: {}".format(pygit2.LIBGIT2_VER))
+    # print("LIBGIT2: {}".format(pygit2.LIBGIT2_VER))
 
     # Cloning order matters
     try:
@@ -50,15 +55,15 @@ def main():
         print("Repo already exists!")
 
     try:
-        print("Cloning build repo over http...")
-        pygit2.clone_repository("https://github.com/ChristopherJD/raspberrypi_conf", build_dir,
+        print("Cloning build repo over ssh...")
+        pygit2.clone_repository("git@github.com:ChristopherJD/raspberrypi_conf.git", build_dir,
             callbacks=MyRemoteCallbacks())
     except ValueError as ve:
         print("Repo already exists!")
 
     try:
-        print("Cloning meta-user repo over http...")
-        pygit2.clone_repository("https://github.com/ChristopherJD/raspberrypi_meta_user", meta_user_dir,
+        print("Cloning meta-user repo over ssh...")
+        pygit2.clone_repository("git@github.com:ChristopherJD/raspberrypi_meta_user.git", meta_user_dir,
             callbacks=MyRemoteCallbacks())
     except ValueError as ve:
         print("Repo already exists!")
