@@ -25,7 +25,7 @@ def main():
 
     # Parse arguments
     parser = argparse.ArgumentParser()
-    parser.add_argument("dir", help="Directory to checkout project to.")
+    parser.add_argument("-d", "--dir", help="Directory to checkout project to. Default is $HOME/Documents. WARNING you must change your layers listed in build/conf/bblayers.conf if you are going to use this option.", default=join(HOME, "Documents"))
     args = parser.parse_args()
 
     # Join directories
