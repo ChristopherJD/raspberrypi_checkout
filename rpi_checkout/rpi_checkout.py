@@ -5,6 +5,7 @@ import subprocess
 from shutil import copy2
 from os import path
 from os import environ
+from os import chdir
 from os.path import join
 
 HOME = environ["HOME"]
@@ -43,7 +44,7 @@ def checkout_operation(directory):
     build_dir = path.join(poky_dir, 'build')
 
     # Print verison of libgit2
-    # print("LIBGIT2: {}".format(pygit2.LIBGIT2_VER))
+    print("LIBGIT2: {}".format(pygit2.LIBGIT2_VER))
 
     # Cloning order matters
     try:
@@ -81,6 +82,8 @@ def checkout_operation(directory):
     except ValueError as ve:
         print("Repo already exists!")
 
+    print("Please change to {} to build your project!".format(poky_dir))
+
 def deploy_operation(directory):
 
     if not path.exists(directory):
@@ -110,7 +113,7 @@ def main():
 
     # Parse arguments
     parser = argparse.ArgumentParser()
-    parser.add_argument("-d", "--dir", help="Directory perform the operation to. Default is $HOME/Documents. WARNING you must change your layers listed in build/conf/bblayers.conf if you are going to use this option with the checkout operation.", default=join(HOME, "Documents"))
+    parser.add_argument("-d", "--dir", help="Directory perform the operation to. Default is {}.".format(join(HOME, "Documents")), default=join(HOME, "Documents"))
     parser.add_argument("-o", "--operation", nargs='+', required=True, choices=operation_choices, default=operation_choices[0], help="Operation to perform. Note that deploy should only be used by developers.")
     args = parser.parse_args()
 
