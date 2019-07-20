@@ -6,11 +6,11 @@ Python script to help manage code checkout and deployment operations for the Ras
 
 **SDK**
 
-You can download the pre-built SDK [here](https://mega.nz/#!YP4DjShJ).
+You can download the pre-built SDK [here](https://mega.nz/#!YP4DjShJ!588wAkehnsjxvIR2CdM7gWTSWsFwzVhFdL5ZB3e0OUU).
 
 **Raspberry Pi SD Card Image**
 
-You can downlaod the pre-build image [here](https://mega.nz/#!dT5zXCZI)
+You can downlaod the pre-build image [here](https://mega.nz/#!dT5zXCZI!U9SByom1hd35hkGbRb1zY7k88gR4W27ogGxhx_gNBP4)
 
 ## Requirements
 
