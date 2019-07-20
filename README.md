@@ -12,11 +12,11 @@ You can download the pre-built SDK [here](https://mega.nz/#!YP4DjShJ).
 
 You can downlaod the pre-build image [here](https://mega.nz/#!dT5zXCZI)
 
-# Requirements
+## Requirements
 
 * pygit2
 
-# Installing
+## Installing
 
 The pip package manager should be used to install this tool.
 
@@ -28,7 +28,7 @@ sudo apt install python-pip
 pip install .
 ```
 
-# Checking out Files
+## Checking out Files
 
 You can use the script using the following command.
 
@@ -47,9 +47,9 @@ optional arguments:
                      use this option.
 ```
 
-# Building Raspberry Pi image
+## Building Raspberry Pi image
 
-## Setup
+### Setup
 
 (Required) However it is recommended that you either change the location that yocto uses for package download, or mount an external hard drive as I have done to store these packages.
 
@@ -94,19 +94,19 @@ The following steps will cause your hard drive to be mounted automatically at st
 
 Old:
 
-    ```
-    DL_DIR ?= "/media/external_500/downloads"
-    SSTATE_DIR ?= "/media/external_500/sstate-cache"
-    ```
+```
+DL_DIR ?= "/media/external_500/downloads"
+SSTATE_DIR ?= "/media/external_500/sstate-cache"
+```
   
 New:
 
-    ```
-    DL_DIR ?= "${TOPDIR}/downloads"
-    SSTATE_DIR ?= "${TOPDIR}/sstate-cache"
-    ```
+```
+DL_DIR ?= "${TOPDIR}/downloads"
+SSTATE_DIR ?= "${TOPDIR}/sstate-cache"
+```
   
-## Building
+### Building
 
 1. Checkout the necessary files (If not previously competed). Please note this could take some time (depends on size of repo).
 
