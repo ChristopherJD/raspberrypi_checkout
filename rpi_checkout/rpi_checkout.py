@@ -1,5 +1,8 @@
+from __future__ import print_function # Only Python 2.x
 import pygit2
 import argparse
+import subprocess
+from shutil import copy2
 from os import path
 from os import environ
 from os.path import join
@@ -8,7 +11,16 @@ HOME = environ["HOME"]
 GIT_USERNAME = "git"
 SSH_PUBLIC_KEY = ".ssh/id_rsa.pub"
 SSH_PRIVATE_KEY = ".ssh/id_rsa"
+MEGA_FILE_UPLOAD_PATH = "/home/christopher/MEGA"
 
+def execute(cmd):
+    popen = subprocess.Popen(cmd, stdout=subprocess.PIPE, universal_newlines=True)
+    for stdout_line in iter(popen.stdout.readline, ""):
+        yield stdout_line 
+    popen.stdout.close()
+    return_code = popen.wait()
+    if return_code:
+        raise subprocess.CalledProcessError(return_code, cmd)
 
 class MyRemoteCallbacks(pygit2.RemoteCallbacks):
 
@@ -20,15 +32,10 @@ class MyRemoteCallbacks(pygit2.RemoteCallbacks):
         else:
             return None
 
-def main():
-
-    # Parse arguments
-    parser = argparse.ArgumentParser()
-    parser.add_argument("-d", "--dir", help="Directory to checkout project to. Default is $HOME/Documents. WARNING you must change your layers listed in build/conf/bblayers.conf if you are going to use this option.", default=join(HOME, "Documents"))
-    args = parser.parse_args()
+def checkout_operation(directory):
 
     # Join directories
-    project_dir = args.dir
+    project_dir = directory
     poky_dir = path.join(project_dir, 'poky')
     meta_raspberrypi_dir = path.join(poky_dir, 'meta-raspberrypi')
     meta_user_dir = path.join(poky_dir, 'meta-user')
@@ -74,3 +81,48 @@ def main():
     except ValueError as ve:
         print("Repo already exists!")
 
+def deploy_operation(directory):
+
+    if not path.exists(directory):
+        raise IOError("Directory not found!")
+
+    os_path = path.join(directory, 'poky/build/tmp/deploy/images/raspberrypi3/rpi-basic-raspberrypi3.rpi-sdimg')
+    sdk_path = path.join(directory, 'poky/build/tmp/deploy/sdk/poky-glibc-x86_64-rpi-basic-cortexa7t2hf-neon-vfpv4-toolchain-2.6.2.sh')
+
+    if (not path.exists(os_path)) or (not path.exists(sdk_path)):
+        raise IOError("File not found!")
+
+    copy2(sdk_path, MEGA_FILE_UPLOAD_PATH)
+    copy2(os_path, MEGA_FILE_UPLOAD_PATH)
+
+def build_operation(directory):
+
+    raise NotImplementedError("Build operation")
+
+    # poky_dir = path.join(directory, 'poky')
+    # for line in execute(["bash", "build_os.sh", poky_dir]):
+    #     print(line, end="")
+
+def main():
+    
+    operations = {'checkout': checkout_operation, 'deploy': deploy_operation, 'build': build_operation}
+    operation_choices = operations.keys()
+
+    # Parse arguments
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-d", "--dir", help="Directory perform the operation to. Default is $HOME/Documents. WARNING you must change your layers listed in build/conf/bblayers.conf if you are going to use this option with the checkout operation.", default=join(HOME, "Documents"))
+    parser.add_argument("-o", "--operation", nargs='+', required=True, choices=operation_choices, default=operation_choices[0], help="Operation to perform. Note that deploy should only be used by developers.")
+    args = parser.parse_args()
+
+    chosen_operations = args.operation
+
+    try:
+        for operation in chosen_operations:
+            operations[operation](args.dir)
+    except IOError as ioe:
+        print(ioe)
+    except NotImplementedError as nie:
+        print("The operation is not yet supported.")
+
+if __name__ == "__main__":
+    main()
