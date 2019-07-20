@@ -2,9 +2,6 @@
 
 Checkout script to get the necessary files to build raspberry pi poky OS using yocto and bitbake.
 
-**WARNING**
-This script will only work if you have the private and public SSH keys in your repository.
-
 # Requirements
 
 It is required to use the pip package manager. You can install using the following command.
