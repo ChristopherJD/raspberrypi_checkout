@@ -1,6 +1,6 @@
 # Raspberry Pi Checkout
 
-Python script to help manage code checkout and deployment operations for the Raspberry Pi. This project runs the poky distro from the Yocto system as its operating system. This includes a custom set of libraries and tools.
+Python script to help manage code checkout and deployment operations for the Raspberry Pi 3 B+ OS Build. The raspberry pi uses the Poky distribution from the Yocto project as its operating system. The backend of this uses the bitbake build system for configuration.
 
 ## Pre-Build Images and SDK
 
@@ -18,14 +18,14 @@ You can downlaod the pre-build image [here](https://mega.nz/#!dT5zXCZI!U9SByom1h
 
 ## Installing
 
-The pip package manager should be used to install this tool.
+The pip package manager should be used to install this tool. If you don't already have this installed, you can install pip using the following command. Pip will discover all necessary installation dependencies.
 
 ```bash
 sudo apt install python-pip
 ```
 
 ```bash
-pip install .
+python -m pip install rpi_checkout-0.1-py2-none-any.whl
 ```
 
 ## Checking out Files
@@ -33,7 +33,7 @@ pip install .
 You can use the script using the following command.
 
 ```bash
-python -m rpi_checkout
+python -m rpi_checkout -h
 ```
 
 ```
