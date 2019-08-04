@@ -37,14 +37,22 @@ python -m rpi_checkout
 ```
 
 ```
-usage: __main__.py [-h] [-d DIR]
+usage: rpi_checkout.py [-h] [-d DIR] -o {checkout,build,deploy}
+                       [{checkout,build,deploy} ...]
 
 optional arguments:
-  -h, --help         show this help message and exit
-  -d DIR, --dir DIR  Directory to checkout project to. Default is
-                     $HOME/Documents. WARNING you must change your layers
-                     listed in build/conf/bblayers.conf if you are going to
-                     use this option.
+  -h, --help            show this help message and exit
+  -d DIR, --dir DIR     Directory perform the operation to. Default is
+                        /home/christopher/Documents.
+  -o {checkout,build,deploy} [{checkout,build,deploy} ...], --operation {checkout,build,deploy} [{checkout,build,deploy} ...]
+                        Operation to perform. Note that deploy should only be
+                        used by developers.
+```
+
+## Checkout out the Kernel Source
+
+```bash
+devtool modify linux-raspberrypi
 ```
 
 ## Building Raspberry Pi image
