@@ -62,15 +62,15 @@ def checkout_operation(directory):
         print("Repo already exists!")
 
     try:
-        print("Cloning build repo over ssh...")
-        pygit2.clone_repository("git@github.com:ChristopherJD/raspberrypi_conf.git", build_dir,
+        print("Cloning build repo over http...")
+        pygit2.clone_repository("https://github.com/ChristopherJD/raspberrypi_conf.git", build_dir,
             callbacks=MyRemoteCallbacks())
     except ValueError as ve:
         print("Repo already exists!")
 
     try:
-        print("Cloning meta-user repo over ssh...")
-        pygit2.clone_repository("git@github.com:ChristopherJD/raspberrypi_meta_user.git", meta_user_dir,
+        print("Cloning meta-user repo over http...")
+        pygit2.clone_repository("https://github.com/ChristopherJD/raspberrypi_meta_user.git", meta_user_dir,
             callbacks=MyRemoteCallbacks())
     except ValueError as ve:
         print("Repo already exists!")
@@ -114,7 +114,7 @@ def main():
     # Parse arguments
     parser = argparse.ArgumentParser()
     parser.add_argument("-d", "--dir", help="Directory perform the operation to. Default is {}.".format(join(HOME, "Documents")), default=join(HOME, "Documents"))
-    parser.add_argument("-o", "--operation", nargs='+', required=True, choices=operation_choices, default=operation_choices[0], help="Operation to perform. Note that deploy should only be used by developers.")
+    parser.add_argument("-o", "--operation", nargs='+', required=True, choices=operation_choices, default=checkout_operation, help="Operation to perform. Note that deploy should only be used by developers.")
     args = parser.parse_args()
 
     chosen_operations = args.operation
