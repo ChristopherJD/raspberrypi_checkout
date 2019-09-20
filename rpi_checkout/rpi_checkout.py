@@ -13,6 +13,7 @@ GIT_USERNAME = "git"
 SSH_PUBLIC_KEY = ".ssh/id_rsa.pub"
 SSH_PRIVATE_KEY = ".ssh/id_rsa"
 MEGA_FILE_UPLOAD_PATH = "/home/christopher/MEGA"
+CHECKOUT_BRANCH = "warrior"
 
 def execute(cmd):
     popen = subprocess.Popen(cmd, stdout=subprocess.PIPE, universal_newlines=True)
@@ -49,36 +50,41 @@ def checkout_operation(directory):
     # Cloning order matters
     try:
         print("Cloning poky repo over http...")
+        print("Branch: {}".format(CHECKOUT_BRANCH))
         pygit2.clone_repository("https://git.yoctoproject.org/git/poky", poky_dir,
-            callbacks=MyRemoteCallbacks(), checkout_branch="thud")
+            callbacks=MyRemoteCallbacks(), checkout_branch=CHECKOUT_BRANCH)
     except ValueError as ve:
         print("Repo already exists!")
 
     try:
         print("Cloning meta-raspberrypi repo over http...")
+        print("Branch: {}".format(CHECKOUT_BRANCH))
         pygit2.clone_repository("https://github.com/agherzan/meta-raspberrypi", meta_raspberrypi_dir,
-            callbacks=MyRemoteCallbacks(), checkout_branch="thud")
+            callbacks=MyRemoteCallbacks(), checkout_branch=CHECKOUT_BRANCH)
     except ValueError as ve:
         print("Repo already exists!")
 
     try:
         print("Cloning build repo over http...")
+        print("Branch: {}".format(CHECKOUT_BRANCH))
         pygit2.clone_repository("https://github.com/ChristopherJD/raspberrypi_conf.git", build_dir,
-            callbacks=MyRemoteCallbacks())
+            callbacks=MyRemoteCallbacks(), checkout_branch=CHECKOUT_BRANCH)
     except ValueError as ve:
         print("Repo already exists!")
 
     try:
         print("Cloning meta-user repo over http...")
+        print("Branch: {}".format(CHECKOUT_BRANCH))
         pygit2.clone_repository("https://github.com/ChristopherJD/raspberrypi_meta_user.git", meta_user_dir,
-            callbacks=MyRemoteCallbacks())
+            callbacks=MyRemoteCallbacks(), checkout_branch=CHECKOUT_BRANCH)
     except ValueError as ve:
         print("Repo already exists!")
 
     try:
         print("Cloning meta-openembedded repo over http...")
+        print("Branch: {}".format(CHECKOUT_BRANCH))
         pygit2.clone_repository("https://github.com/openembedded/meta-openembedded.git", meta_oe_dir,
-            callbacks=MyRemoteCallbacks(), checkout_branch="thud")
+            callbacks=MyRemoteCallbacks(), checkout_branch=CHECKOUT_BRANCH)
     except ValueError as ve:
         print("Repo already exists!")
 
